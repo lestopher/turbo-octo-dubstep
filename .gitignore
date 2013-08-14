@@ -18,3 +18,4 @@ _yardoc
 doc/
 
 *.sqlite3
+.env
