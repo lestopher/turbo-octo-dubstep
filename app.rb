@@ -1,7 +1,12 @@
 require 'sinatra'
+require 'sinatra/namespace'
 require 'haml'
+require 'pry'
 
 class Irb < Sinatra::Application
+  register Sinatra::Namespace
+  enable :logging if ENV['RACK_ENV'] != 'production'
+  
   get '/' do
     haml :index 
   end
