@@ -4,4 +4,5 @@ ActiveRecord::Base.establish_connection(
   :database => 'db/development.sqlite3'
 )
 require_relative 'person'
+require_relative 'address'
 

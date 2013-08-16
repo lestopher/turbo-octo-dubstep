@@ -5,6 +5,10 @@ class Irb < Sinatra::Application
       person = Person.all.to_json
     end
 
+    get '/count' do
+      {"count": Person.all.count}.to_json
+    end
+
     post '/create' do
       Person.create! do |p|
         p.first_name = params[:first_name]
