@@ -3,7 +3,7 @@ class Irb < Sinatra::Application
     response.headers['Content-Type'] = 'application/json;chartset=utf-8'
   end
 
-  namespace '/address' do
+  namespace '/api/address' do
     get '/?' do
       payload Address.all
     end
@@ -21,7 +21,7 @@ class Irb < Sinatra::Application
         a.state         = params[:state]
         a.zip_code      = params[:zip_code]
         a.country       = params[:country]
-        a.person_id     = person_id
+        a.person_id     = params[:person_id]
       end
 
       if addy.save
@@ -36,15 +36,15 @@ class Irb < Sinatra::Application
     put '/update/:id' do
       addy = Address.find_by_id params[:id]
 
-      success = addy.update_attributes do |a|
-        a.street_line_1 = params[:street_line_1] || addy.street_line_1
-        a.street_line_2 = params[:street_line_2] || add.street_line_2
-        a.city          = params[:city] || addy.city
-        a.state         = params[:state] || addy.state
-        a.zip_code      = params[:zip_code] || addy.zip_code
-        a.country       = params[:country] || addy.country
-        a.person_id     = params[:person_id] || addy.person.id
-      end
+      success = addy.update_attributes(
+        :street_line_1 => params[:street_line_1] || addy.street_line_1,
+        :street_line_2 => params[:street_line_2] || addy.street_line_2,
+        :city          => params[:city] || addy.city,
+        :state         => params[:state] || addy.state,
+        :zip_code      => params[:zip_code] || addy.zip_code,
+        :country       => params[:country] || addy.country,
+        :person_id     => params[:person_id] || addy.person.id
+      )
 
       if !success
         status 500

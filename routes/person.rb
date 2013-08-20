@@ -3,7 +3,7 @@ class Irb < Sinatra::Application
     response.headers['Content-Type'] = 'application/json;chartset=utf-8'
   end
 
-  namespace '/person' do
+  namespace '/api/person' do
     get '/?' do
       payload Person.all
     end
