@@ -8,6 +8,7 @@ gem 'activerecord', '3.2.13'
 gem 'standalone_migrations', '2.1.1'
 gem 'rack', '1.4.5'
 gem 'activerecord-postgresql-adapter'
+gem 'bcrypt-ruby', :require => 'bcrypt'
 
 if RUBY_VERSION =~ /1.8/
   gem 'backports', '2.3.0'
