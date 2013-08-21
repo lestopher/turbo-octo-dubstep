@@ -19,6 +19,7 @@ class Irb < Sinatra::Application
         p.last_name   = params[:last_name]
         p.gender      = params[:gender]
         p.email       = params[:email]
+        p.password    = params[:password]
       end
 
       if person.save

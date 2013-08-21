@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/namespace'
 require 'haml'
 require 'pry'
+require 'bcrypt'
 
 class Irb < Sinatra::Application
   register Sinatra::Namespace

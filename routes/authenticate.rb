@@ -1,12 +1,12 @@
 class Irb < Sinatra::Application
   namespace '/api/authenticate' do
     post '/?' do
-      person = Person.new do |p|
-        p.first_name = params[:first_name]
-        p.middle_name = params[:middle_name]
-        p.last_name = params[:last_name]
-        p.gender = params[:gender]
-        p.email = params[:email]
+      person = Person.authenticate params[:email], params[:password]
+
+      if person
+        session[:person_id] = person.id
+        status 200
+        return payload person.user_details
       end
     end   
   end
