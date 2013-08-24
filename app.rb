@@ -8,6 +8,11 @@ class Irb < Sinatra::Application
   register Sinatra::Namespace
   enable :logging if ENV['RACK_ENV'] != 'production'
 
+  use Rack::Session::Cookie, :key => 'rack.session',
+                             :path => '/',
+                             :expire_after => 25920000,
+                             :secret => 'This is a super secure key 123456.'
+
   get '/' do
     haml :index 
   end

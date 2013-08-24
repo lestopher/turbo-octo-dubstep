@@ -13,7 +13,11 @@ class Irb < Sinatra::Application
     end
 
     post '/create' do
-      # Need some type of authentication to get the user info here
+      if session[:person_id].nil?
+        status 403
+        return payload({}, "Person must be authenticated")
+      end
+
       addy = Address.new do |a|
         a.street_line_1 = params[:street_line_1]
         a.street_line_2 = params[:street_line_2]
@@ -21,7 +25,7 @@ class Irb < Sinatra::Application
         a.state         = params[:state]
         a.zip_code      = params[:zip_code]
         a.country       = params[:country]
-        a.person_id     = params[:person_id]
+        a.person_id     = session[:person_id]
       end
 
       if addy.save
@@ -34,7 +38,12 @@ class Irb < Sinatra::Application
     end
 
     put '/update/:id' do
-      addy = Address.find_by_id params[:id]
+      if session[:person_id].nil?
+        status 403
+        return payload({}, "Person must be authenticated")
+      end
+
+      addy = Address.find_by_id_and_person_id params[:id], session[:person_id]
 
       success = addy.update_attributes(
         :street_line_1 => params[:street_line_1] || addy.street_line_1,
@@ -43,7 +52,7 @@ class Irb < Sinatra::Application
         :state         => params[:state] || addy.state,
         :zip_code      => params[:zip_code] || addy.zip_code,
         :country       => params[:country] || addy.country,
-        :person_id     => params[:person_id] || addy.person.id
+        :person_id     => addy.person.id
       )
 
       if !success
