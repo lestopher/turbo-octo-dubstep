@@ -12,9 +12,14 @@ class Irb < Sinatra::Application
 
     get '/isAuthenticated/?' do
       if session[:person_id].nil?
-        return payload({ :authenticated => false })
+        payload({ :authenticated => false }, "User not authenticated")
       else
-        return payload({ :authenticated => true })
+        person = Person.find session[:person_id]
+        if person
+          payload person.user_details
+        else
+          payload({ :authenticated => false }, "User not authenticated")
+        end
       end
     end
   end
