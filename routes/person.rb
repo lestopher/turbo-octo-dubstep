@@ -5,7 +5,7 @@ class Irb < Sinatra::Application
 
   namespace '/api/person' do
     get '/?' do
-      payload Person.all
+      payload Person.all.map{ |p| p.user_details }
     end
 
     get '/count' do
